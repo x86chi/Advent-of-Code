@@ -20,6 +20,6 @@ let find = pieces => {
 
   first * (current_year - first)
 }
-let parse = input => input |> Js.String.split("\n") |> Array.to_list |> List.map(int_of_string)
+let parse = input => Parse.readlines(input) |> List.map(int_of_string)
 
 let main = input => input->parse->find
