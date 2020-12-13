@@ -3,3 +3,6 @@ lib
 .merlin
 *.bs.js
 _logs
+
+src/*.js
+.eslintcache
