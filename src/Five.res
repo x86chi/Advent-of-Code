@@ -6,22 +6,34 @@ let rec div = (l, min, max) => {
     let tail = l->List.tl
     let half = (max - min) / 2 + min
     switch head {
-    | 'F' | 'L' => tail->div(min, half)
-    | 'B' | 'R' => tail->div(half + 1, max)
-    | _ => failwith("invalid input")
+    | #upper => tail->div(min, half)
+    | #lower => tail->div(half + 1, max)
     }
   } else {
     min
   }
 }
 
-let divOn = (source, from, len, max) => {
-  String.sub(source, from, len)->String.split_chars->div(0, max)
+let divOn = (source, from, len, max, mapCh) => {
+  String.sub(source, from, len)->String.split_chars->Belt_List.map(mapCh)->div(0, max)
 }
 
 let seatFromTicket = ticket => {
-  let row = divOn(ticket, 0, 7, 127)
-  let col = divOn(ticket, 7, 3, 7)
+  let rowFun = x =>
+    switch x {
+    | 'F' => #upper
+    | 'B' => #lower
+    | _ => failwith("invalid input")
+    }
+  let colFun = x =>
+    switch x {
+    | 'L' => #upper
+    | 'R' => #lower
+    | _ => failwith("invalid input")
+    }
+
+  let row = divOn(ticket, 0, 7, 127, rowFun)
+  let col = divOn(ticket, 7, 3, 7, colFun)
 
   row * 8 + col
 }
