@@ -14,7 +14,8 @@ let rec div = (l, min, max) => {
   }
 }
 
-let divOn = (source, from, len, max, mapCh) => {
+let divOn = (source, from, len, mapCh) => {
+  let max = Pervasives.lsl(1, len) - 1
   String.sub(source, from, len)->String.split_chars->Belt_List.map(mapCh)->div(0, max)
 }
 
@@ -32,8 +33,8 @@ let seatFromTicket = ticket => {
     | _ => failwith("invalid input")
     }
 
-  let row = divOn(ticket, 0, 7, 127, rowFun)
-  let col = divOn(ticket, 7, 3, 7, colFun)
+  let row = divOn(ticket, 0, 7, rowFun)
+  let col = divOn(ticket, 7, 3, colFun)
 
   row * 8 + col
 }
